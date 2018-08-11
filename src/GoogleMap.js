@@ -38,8 +38,8 @@ class GoogleMap extends Component {
    static mapMarkerToMap(place, map) {
     const marker = new window.google.maps.Marker({
       map: map,
-      position: place.latlng,
-      title: place.title,
+      position: {lat: place.location.lat, lng: place.location.lng},
+      title: place.name,
       animation: window.google.maps.Animation.DROP,
       id: 1
     });

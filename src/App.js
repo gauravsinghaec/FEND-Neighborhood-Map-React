@@ -18,29 +18,13 @@ class NeighborhoodApp extends Component {
    * output has been rendered to the DOM.
    */
   componentDidMount() {
-    let locations = [
-                {
-                  title: 'Amer Fort, Jaipur',
-                  latlng: {lat: 26.996471, lng: 75.876472}
-                },
-                {
-                  title: 'Ajmer, Jaipur',
-                  latlng: {lat: 26.449896, lng: 74.639915}
-                },
-                {
-                  title: 'Jodhpur, Rajasthan',
-                  latlng: {lat: 26.263863, lng: 73.008957}
-                },
-                {
-                  title: 'Pushkar, Rajasthan',
-                  latlng: {lat: 26.489679, lng: 74.550941}
-                },
-                {
-                  title: 'Jaipur, Rajasthan',
-                  latlng: {lat: 26.922070, lng: 75.778885}
-                }
-                ];
+    fetch(`https://api.foursquare.com/v2/venues/search?ll=22.5726,88.3639&client_id=URF15OGCPJ1TLULVBABNIUQ0Z4DG0V0MG4M30CXCZHJCGTES&client_secret=14SK5TBI4RESQ4C4NWDQOYT03L3K0YE5025BMRPEYTEOHQJN&limit=25&v=20180707`)
+    .then( response => response.json())
+    .then( data => {
+      let locations = data.response.venues;
       this.setState({ locations });
+    })
+    .catch(error => console.log(error));
   }
 
   showListView = () =>{
@@ -58,7 +42,7 @@ class NeighborhoodApp extends Component {
     let filteredLocations;
     if(filterQuery.trim()){
       const match = new RegExp(escapeRegExp(filterQuery),'i');
-      filteredLocations = locations.filter( location => match.test(location.title) );
+      filteredLocations = locations.filter( location => match.test(location.name) );
     }else {
       filteredLocations = locations;
     }

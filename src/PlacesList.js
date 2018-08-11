@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const PlacesList = ({locations}) => (
       <ul id="places-list">
       {locations.map(location => (
-        <li key={location.title}><button>{location.title}</button></li>
+        <li key={location.id}><button>{location.name}</button></li>
       ))}
       </ul>
 );
