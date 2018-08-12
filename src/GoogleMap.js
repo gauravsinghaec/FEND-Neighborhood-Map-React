@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import escapeRegExp from 'escape-string-regexp';
 import PropTypes from 'prop-types';
 
 class GoogleMap extends Component {
@@ -102,8 +103,9 @@ class GoogleMap extends Component {
   // Filter Map markers for places.
   filterMarkerOnMap = (filterText) => {
     const { map, markers } = this.state;
+    const match = new RegExp(escapeRegExp(filterText), 'i');
     for (let i = 0; i < markers.length; i += 1) {
-      if (markers[i].title.indexOf(filterText) !== -1) {
+      if (match.test(markers[i].title)) {
         markers[i].setMap(map);
       } else {
         markers[i].setMap(null);
