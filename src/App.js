@@ -11,6 +11,7 @@ class NeighborhoodApp extends Component {
     locations: [],
     isListOpen: false,
     filterQuery: '',
+    selectedPlaceTitle: '',
   }
 
   /**
@@ -37,8 +38,12 @@ class NeighborhoodApp extends Component {
     this.setState({ filterQuery });
   }
 
+  selectPlace = (selectedPlaceTitle) => {
+    this.setState({ selectedPlaceTitle });
+  }
+
   render() {
-    const { locations, isListOpen, filterQuery } = this.state;
+    const { locations, isListOpen, filterQuery, selectedPlaceTitle } = this.state;
     let filteredLocations;
     if (filterQuery.trim()) {
       const match = new RegExp(escapeRegExp(filterQuery), 'i');
@@ -65,9 +70,16 @@ class NeighborhoodApp extends Component {
               onChange={(event) => { this.updateQuery(event.target.value); }}
             />
           </div>
-          <PlacesList locations={filteredLocations} />
+          <PlacesList
+            locations={filteredLocations}
+            selectPlace={this.selectPlace}
+          />
         </div>
-        <GoogleMap locations={filteredLocations} filterText={filterQuery} />
+        <GoogleMap
+          locations={filteredLocations}
+          filterText={filterQuery}
+          selectedPlaceTitle={selectedPlaceTitle}
+        />
       </div>
     );
   }

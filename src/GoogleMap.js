@@ -36,7 +36,7 @@ class GoogleMap extends Component {
         infowindow.setPosition(null);
         marker.setAnimation(null);
       });
-      GoogleMap.ajaxCallForWikiData(marker, infowindow);
+      GoogleMap.fetchWikiData(marker, infowindow);
     }
   };
 
@@ -44,7 +44,7 @@ class GoogleMap extends Component {
    * This function is used to make AJAX call to Wiki API and populate infowindow with data
    * also it shows error message in infowindow if API call fails
    */
-  static ajaxCallForWikiData = (marker, infowindow) => {
+  static fetchWikiData = (marker, infowindow) => {
     const address = marker.title;
     const wikiurl = `https://en.wikipedia.org/w/api.php?&origin=*&action=opensearch&search=${address}`;
     let wikiElemItem = '';
@@ -71,6 +71,7 @@ class GoogleMap extends Component {
   static propTypes = {
     locations: PropTypes.instanceOf(Array).isRequired,
     filterText: PropTypes.string.isRequired,
+    selectedPlaceTitle: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -95,10 +96,29 @@ class GoogleMap extends Component {
     }
   }
 
-  componentDidUpdate() {
-    const { filterText } = this.props;
-    this.filterMarkerOnMap(filterText);
+  componentDidUpdate(prevProps) {
+    const { filterText, selectedPlaceTitle } = this.props;
+    if (filterText !== prevProps.filterText) {
+      this.setState({ markers: this.filterMarkerOnMap(filterText) });
+    }
+    if (selectedPlaceTitle !== prevProps.selectedPlaceTitle) {
+      this.setState({ markers: this.animateSelectedPlaceOnMap(selectedPlaceTitle) });
+    }
   }
+
+  // Funtion to filter only the selected place from location list
+  animateSelectedPlaceOnMap = (placeTitle) => {
+    const { map, markers, largeInfowindow } = this.state;
+    for (let i = 0; i < markers.length; i += 1) {
+      if (placeTitle === markers[i].title) {
+        markers[i].setAnimation(window.google.maps.Animation.BOUNCE);
+        GoogleMap.populateInfoWindow(map, markers[i], largeInfowindow);
+      } else {
+        markers[i].setAnimation(null);
+      }
+    }
+    return markers;
+  };
 
   // Filter Map markers for places.
   filterMarkerOnMap = (filterText) => {
@@ -111,6 +131,7 @@ class GoogleMap extends Component {
         markers[i].setMap(null);
       }
     }
+    return markers;
   }
 
   // Load Google APIS
