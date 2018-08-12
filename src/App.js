@@ -56,25 +56,28 @@ class NeighborhoodApp extends Component {
       <div className="App">
         <header>
           <h1>
-            Tourist Places in India
+            Places in Kolkata
           </h1>
           <Toggle showPlaceList={this.showListView} />
         </header>
-        <div id="placelistview" className={isListOpen ? 'listview open' : 'listview'}>
+        <section id="placelistview" className={isListOpen ? 'listview open' : 'listview'}>
           <div id="filter">
-            <input
-              id="filter-text"
-              type="text"
-              placeholder="Search places by name"
-              value={filterQuery}
-              onChange={(event) => { this.updateQuery(event.target.value); }}
-            />
+            <label htmlFor="filter-text">
+              <input
+                id="filter-text"
+                type="text"
+                placeholder="Search places by name"
+                value={filterQuery}
+                onChange={(event) => { this.updateQuery(event.target.value); }}
+              />
+              <span id="filter-help">Filter</span>
+            </label>
           </div>
           <PlacesList
             locations={filteredLocations}
             selectPlace={this.selectPlace}
           />
-        </div>
+        </section>
         <GoogleMap
           locations={filteredLocations}
           filterText={filterQuery}

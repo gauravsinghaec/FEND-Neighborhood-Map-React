@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 const PlacesList = ({ locations, selectPlace }) => (
   <ul id="places-list">
-    {locations.map(location => (
-      <li key={location.id}>
+    {locations.map((location, index) => (
+      <li key={location.id} id={`mi-${index}`} role="menuitem">
         <button type="button" onClick={(event) => { selectPlace(event.target.innerText); }}>
           {location.name}
         </button>
