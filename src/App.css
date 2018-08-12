@@ -1,54 +1,91 @@
+header {
+  text-align:center;
+  color: white;
+  background-color: #484848;
+  height: 80px; }
+
+header h1 {
+  margin: auto;
+  letter-spacing: 2pt;
+  text-transform: uppercase;
+  padding-top: 25px; }
+
+#menu {
+  display: none; }
+
+#filter {
+  height: 25pt;
+  display: flex;
+  flex-wrap: wrap; }
+
+#filter-text {
+  width: calc(72% - 10px);
+  padding: 5px; }
+
+#filter-help {
+  font-size: 10pt;
+  padding: 7px 7px;
+  color: white;
+  text-transform: uppercase;
+  text-align: center;
+  background: blue; }
+
+#filter-text:focus,#filter-text:hover {
+  outline: 0;
+  color: white;
+  background-color: #454545;
+  box-shadow: 0 0 8px 3px;
+}
+
 #placelistview {
   margin: 0px;
   width: 230px;
-  height: 100vh;
   background-color: black; }
 
 #places-list {
-  font-size: 1.2em;
+  overflow: scroll;
   margin: 0px;
+  height: 100vh;
   padding-left: 0px; }
 
 #places-list li {
   list-style: none;
-  padding-right: 0.1em; }
+  padding: 0.1em; }
 
-#map {
-  margin-right: 0.5em;
-  margin-top: 1em;
-  bottom: 0px;
-  top: 3.4em;
-  height: 100%;
-  left: 232px;
-  position: absolute;
-  right: 0px; }
-
-#filter-button, #filter-text {
-  margin: 0px; }
-
-button {
+#places-list button {
+  width: 224px;
+  line-height: 3;
+  text-align: left;
   color: #cccccc;
   background-color: black;
   outline: none;
   border: none; }
 
-.menu_logo {
-  display: none; }
-
-header {
+#places-list button:focus,#places-list button:hover {
+  outline: 0;
   color: white;
-  background-color: #484848;
-  height: 50px; }
+  background-color: #454545;
+  box-shadow: 0 0 8px 3px;
+}
 
-h2 {
-  padding: 0.2em; }
+#map {
+  bottom: 0px;
+  top: 80px;
+  height: 100%;
+  left: 232px;
+  position: absolute;
+  right: 0px; }
 
 @media screen and (max-width: 550px) {
+  header{
+    height: 110px; }
+
   .listview {
     z-index: 10;
     width: 230px;
     position: absolute;
     background-color: black;
+    visibility: hidden;
     /* This trasform moves the drawer off canvas. */
     -webkit-transform: translate(-240px, 0);
     transform: translate(-240px, 0);
@@ -58,23 +95,31 @@ h2 {
     transition: transform 0.3s ease;
     transition: transform 0.3s ease, -webkit-transform 0.3s ease; }
   .listview.open {
+    visibility: visible;
     -webkit-transform: translate(0, 0);
     transform: translate(0, 0);
     -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5);
             box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); }
   #map {
-    top: 50px;
+    top: 110px;
     bottom: 0px;
     left: 0px;
     height: 100%;
     position: absolute;
     right: 0px;
     margin: 8px; }
-  .menu_logo {
-    display: unset;
+  #menu {
+    display: block;
     position: absolute;
     cursor: pointer;
     top: 20px;
     right: 8px;
     width: 32px; }
-  /*.menu_logo a{ width: 32px }*/ }
+
+  #menu:focus,#menu:hover {
+    outline: 0;
+    color: white;
+    background-color: #454545;
+    box-shadow: 0 0 8px 3px; }
+
+}
