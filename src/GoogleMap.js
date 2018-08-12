@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 
 class GoogleMap extends Component {
   // Map markers for places.
-  static mapMarkerToMap(place, map) {
+  static mapMarkerToMap(place, map, i) {
+    const label = place.name[0];
     const marker = new window.google.maps.Marker({
       // Use property shorthand of ES6 syntax in place of map: map,
       map,
       position: { lat: place.location.lat, lng: place.location.lng },
       title: place.name,
       animation: window.google.maps.Animation.DROP,
-      id: 1,
+      id: i,
+      label,
     });
     return marker;
   }
@@ -158,9 +160,9 @@ class GoogleMap extends Component {
     const { locations } = this.props;
     const bounds = new window.google.maps.LatLngBounds();
     // The following group uses the location array to create an array of markers on initialize.
-    for (const place of locations) {
+    for (let i = 0; i < locations.length; i += 1) {
       // Create a marker per location, and put into markers array.
-      const marker = GoogleMap.mapMarkerToMap(place, map);
+      const marker = GoogleMap.mapMarkerToMap(locations[i], map, i);
       // Push the marker to our array of markers.
       markers.push(marker);
       /**
@@ -178,9 +180,10 @@ class GoogleMap extends Component {
 
   render() {
     return (
-      <div id="maptab">
-        <div ref={this.myMapContainer} id="map" />
-        <div id="map-error" hidden>
+      <section id="maptab" role="application">
+        <div ref={this.myMapContainer} id="map" aria-label="Places on Map" aria-describedby="map-help"></div>
+        <div id="map-help" hidden>Map showing the places as per listings</div>
+        <div id="map-error" aria-label="Can not load the Map" hidden>
           <p>
             Google Maps now requires the use of a valid API Key.
             That&aposs why you see the popup window &quotThis page
@@ -190,7 +193,7 @@ class GoogleMap extends Component {
             Go get one!
           </a>
         </div>
-      </div>
+      </section>
     );
   }
 }
