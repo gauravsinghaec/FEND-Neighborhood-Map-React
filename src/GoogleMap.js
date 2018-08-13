@@ -25,12 +25,12 @@ class GoogleMap extends Component {
    */
   static populateInfoWindow = (map, marker, infowindow) => {
     // Check to make sure the infowindow is not already opened on this marker.
-    if (infowindow.marker !== marker) {
+    if (infowindow.getPosition() !== marker.position) {
       if (infowindow.marker) {
         infowindow.marker.setAnimation(null);
       }
       marker.setAnimation(window.google.maps.Animation.BOUNCE);
-      infowindow.setPosition(marker.position);
+      infowindow.marker = marker;
       infowindow.setContent(`<div>${marker.title}</div>`);
       infowindow.open(map, marker);
       // Make sure the marker property is cleared if the infowindow is closed.
@@ -49,7 +49,9 @@ class GoogleMap extends Component {
   static fetchWikiData = (marker, infowindow) => {
     const address = marker.title;
     const wikiurl = `https://en.wikipedia.org/w/api.php?&origin=*&action=opensearch&search=${address}`;
-    let wikiElemItem = '';
+    let wikiElemItem = `<div class="infowindow"><h2>${address}</h2>
+      <p>Relevant Wikipedia Links</p>
+    <ul>`;
 
     // AJAX call to retrieve data from Wikipedia
     fetch(wikiurl)
@@ -57,14 +59,15 @@ class GoogleMap extends Component {
       .then((data) => {
         for (let i = 0; i < data.length; i += 1) {
           wikiElemItem += data[i].length
-            ? `<li>
+            ? `<li class="infowindow-item">
                 <a target ="_blank" href=http://en.wikipedia.org/wiki/${data[i]}>
                   ${data[i]}
                 </a>
             </li>`
             : '';
         }
-        infowindow.setContent(`<h5>Relevant Wikipedia Links</h5>${wikiElemItem}`);
+        wikiElemItem += '</ul></div>';
+        infowindow.setContent(wikiElemItem);
       }).catch(() => {
         infowindow.setContent(`<div>${marker.title}</div> <div>No Wiki Link Found</div>`);
       });
@@ -91,6 +94,7 @@ class GoogleMap extends Component {
 
   componentDidMount() {
     window.initMap = this.initMap;
+    window.googleError = this.googleError;
     if (typeof window.google === 'object' && typeof window.google.maps === 'object') {
       this.initMap();
     } else {
@@ -106,6 +110,12 @@ class GoogleMap extends Component {
     if (selectedPlaceTitle !== prevProps.selectedPlaceTitle) {
       this.setState({ markers: this.animateSelectedPlaceOnMap(selectedPlaceTitle) });
     }
+  }
+
+  googleError = () => {
+    let content = window.document.getElementById('map-error');
+    content.hidden = false;
+    window.document.getElementById('map').appendChild(content);
   }
 
   // Funtion to filter only the selected place from location list
@@ -141,6 +151,7 @@ class GoogleMap extends Component {
     const ref = window.document.getElementsByTagName('script')[0];
     const script = window.document.createElement('script');
     script.src = src;
+    script.setAttribute('onerror','googleError()');
     script.async = true;
     ref.parentNode.insertBefore(script, ref);
   }
@@ -181,17 +192,29 @@ class GoogleMap extends Component {
   render() {
     return (
       <section id="maptab" role="application">
-        <div ref={this.myMapContainer} id="map" aria-label="Places on Map" aria-describedby="map-help"></div>
-        <div id="map-help" hidden>Map showing the places as per listings</div>
+        <div ref={this.myMapContainer} id="map" aria-label="Places on Map" aria-describedby="map-help" />
+        <div id="map-help">
+          <p>
+            Map showing the places as per the
+            <a target="_blank" rel="noopener noreferrer" href="https://developer.foursquare.com/">
+              <span> Foursquare API</span>
+            </a>
+          </p>
+        </div>
         <div id="map-error" aria-label="Can not load the Map" hidden>
           <p>
-            Google Maps now requires the use of a valid API Key.
-            That&aposs why you see the popup window &quotThis page
-            can&apost load Google Maps correctly.&quot
+            <span className="error">
+              "This page can not load Google Maps correctly."
+            </span>
+            <br />
+            <em>
+              Google Map API now requires the use of a valid API Key.
+            </em>
+            <br />
+            <a href="https://developers.google.com/maps/documentation/javascript/get-api-key">
+              Go get one!
+            </a>
           </p>
-          <a href="https://developers.google.com/maps/documentation/javascript/get-api-key">
-            Go get one!
-          </a>
         </div>
       </section>
     );
