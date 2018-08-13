@@ -24,7 +24,7 @@ header h1 {
 
 #filter-help {
   font-size: 10pt;
-  padding: 7px 7px;
+  padding: 7px 9px;
   color: white;
   text-transform: uppercase;
   text-align: center;
@@ -39,7 +39,7 @@ header h1 {
 
 #placelistview {
   margin: 0px;
-  width: 230px;
+  width: 242px;
   background-color: black; }
 
 #places-list {
@@ -53,7 +53,7 @@ header h1 {
   padding: 0.1em; }
 
 #places-list button {
-  width: 224px;
+  width: 220px;
   line-height: 3;
   text-align: left;
   color: #cccccc;
@@ -72,9 +72,45 @@ header h1 {
   bottom: 0px;
   top: 80px;
   height: 100%;
-  left: 232px;
+  left: 244px;
   position: absolute;
   right: 0px; }
+
+#map-help {
+  text-align: center;
+  font-size: 8pt; }
+
+#map-error {
+  text-align: center;
+  margin-top: 30vh; }
+
+#map-error em,#map-error a {
+  color: red;
+  font-size: 8pt; }
+
+.infowindow {
+  max-width: 40vw;
+  max-height: 40vh;
+  color: black; }
+
+.infowindow h2 {
+  margin: 0; }
+
+.infowindow p {
+  color: black;
+  margin: 10px; }
+
+.infowindow ul {
+    margin: 10px;
+    padding-left: 10px; }
+
+.infowindow-item {
+    padding-bottom: 0.2em; }
+
+.infowindow-item a {
+  font-size: 10pt;
+  text-decoration: underline;
+  color: #0045bb; }
 
 @media screen and (max-width: 550px) {
   header{
@@ -82,13 +118,13 @@ header h1 {
 
   .listview {
     z-index: 10;
-    width: 230px;
+    width: 242px;
     position: absolute;
     background-color: black;
     visibility: hidden;
     /* This trasform moves the drawer off canvas. */
-    -webkit-transform: translate(-240px, 0);
-    transform: translate(-240px, 0);
+    -webkit-transform: translate(-250px, 0);
+    transform: translate(-250px, 0);
     /* Optionally, we animate the drawer. */
     -webkit-transition: -webkit-transform 0.3s ease;
     transition: -webkit-transform 0.3s ease;
