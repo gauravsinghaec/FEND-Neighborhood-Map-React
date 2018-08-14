@@ -77,7 +77,7 @@ class GoogleMap extends Component {
   static fetchWikiData = (marker, infowindow) => {
     const address = marker.title;
     // Wiki fetch API url
-    const wikiurl = `https://en.wikipedklia.org/w/api.php?&origin=*&action=opensearch&search=${address}`;
+    const wikiurl = `https://en.wikipedia.org/w/api.php?&origin=*&action=opensearch&format=json&search=${address}`;
     // HTML block for the content to be shown inside infowindow
     let wikiElemItem = `<div class="infowindow"><h2>${address}</h2>
       <p>Relevant Wikipedia Links</p>
@@ -87,6 +87,10 @@ class GoogleMap extends Component {
     fetch(wikiurl)
       .then(response => response.json())
       .then((data) => {
+        // Check if the response is an error object
+        if (data.error && data.error.code && data.error.info) {
+          throw data.error.info;
+        }
         for (let i = 0; i < data.length; i += 1) {
           // Build the content of infowindow
           wikiElemItem += data[i].length
@@ -102,9 +106,12 @@ class GoogleMap extends Component {
         infowindow.setContent(wikiElemItem);
       })
       // Catch any error in the Fetch API or javascript error
-      .catch(() => {
+      .catch((error) => {
         // Set the error content for infowindow if anything fails
-        infowindow.setContent(`<div>${marker.title}</div> <div>No wiki data found.</div>`);
+        infowindow.setContent(`<div>${marker.title}</div>
+          <div>
+            <p class='error' style='color:red'>${error}</p>
+          </div>`);
       });
   };
 
