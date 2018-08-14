@@ -162,7 +162,9 @@ class GoogleMap extends Component {
    */
   componentDidUpdate(prevProps) {
     // destructure the props object into individual variables
-    const { filterText, selectedPlaceTitle } = this.props;
+    const { filterText, selectedPlaceTitle, locations } = this.props;
+    // destructure the app's state object into individual variables
+    const { map, markers } = this.state;
     // Invoke the filterMarkerOnMap() if the props is changed
     if (filterText !== prevProps.filterText) {
       this.setState({ markers: this.filterMarkerOnMap(filterText) });
@@ -170,6 +172,17 @@ class GoogleMap extends Component {
     // Invoke the animateSelectedPlaceOnMap() whenever a new place is selected/clicked
     if (selectedPlaceTitle !== prevProps.selectedPlaceTitle) {
       this.setState({ markers: this.animateSelectedPlaceOnMap(selectedPlaceTitle) });
+    }
+    // Invoke the loadMarkersOnMap() once the location data is updated in parent component
+    if (locations.length && (locations !== prevProps.locations)) {
+      /**
+       * Do check if the map is initialized or not before loading map markers
+       * And also need avoid creating markers during search rather update
+       * the existing markers in the app's state using filterMarkerOnMap() above
+       */
+      if (map && !filterText) {
+        this.loadMarkersOnMap();
+      }
     }
   }
 
@@ -198,6 +211,7 @@ class GoogleMap extends Component {
    */
   initMap = () => {
     console.log("hi callback init");
+    const { locations } = this.props;
     // Create google map instance to be added to the DOM
     const map = new window.google.maps.Map(this.myMapContainer.current, {
       center: { lat: 26.996471, lng: 75.876472 },
@@ -208,7 +222,13 @@ class GoogleMap extends Component {
     const largeInfowindow = new window.google.maps.InfoWindow();
     // Update the app's state object wirh map, largeInfowindow property
     this.setState({ map, largeInfowindow });
-    this.loadMarkersOnMap();
+    /**
+     * This extra check is to make sure we have the location data
+     * ready before calling the loadMarkersOnMap() method.
+     */
+    if (locations.length) {
+      this.loadMarkersOnMap();
+    }
   }
 
   /**
