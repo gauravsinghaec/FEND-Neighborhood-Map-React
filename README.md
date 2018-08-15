@@ -1,18 +1,20 @@
 # Neighborhood Map React Project
-This project is developed using Google Map API and React. The initial location data (to load onto the map) 
-is being fetched from [Foursquare third party API](#thirt-party-apis). You can filter the location from 
-the text filter section and the map markers & place listings will be updated on real-time based on the 
-input text. Also you will be able to get the details about each place by selecting the place from the 
+This project is developed using Google Map API and React. The initial location data (to load onto the map)
+is being fetched from [Foursquare third party API](#thirt-party-apis). You can filter the location from
+the text filter section and the map markers & place listings will be updated on real-time based on the
+input text. Also you will be able to get the details about each place by selecting the place from the
 listing or by clicking on the individual map markers.
 
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [Project URL](#project-url)
 - [Create React App](#create-react-app)
 - [Folder Structure](#folder-structure)
 - [Prerequisites](#prerequisites)
 - [How to launch the app locally](#how-to-launch-the-app-locally)
   - [Installation](#installation)
+- [Deploy to gh-pages](#deploy-to-gh-pages)
 - [Offline Use and Service Worker](#offline-use-and-service-worker)
 - [Thirt Party APIs](#thirt-party-apis)
 - [Resources](#resources)
@@ -23,6 +25,12 @@ listing or by clicking on the individual map markers.
 
 You need to set up the application before you can see it running live in your browser.
 Please check the [installation](#how-to-launch-the-app-locally) section to know more.
+
+## Project URL
+
+- https://gauravsinghaec.github.io/FEND-Neighborhood-Map-React/
+
+![image](https://user-images.githubusercontent.com/15084301/44168788-00c05500-a0f0-11e8-8170-f67c4426d36a.png)
 
 ## Create React App
 
@@ -63,7 +71,34 @@ Your project folder should look like this:
 ```
 The application will be running at http://localhost:8000 URL
 ```
-5. Build the app - `npm build` this step is to generate the build for deployement in production environment.
+
+## Deploy to gh-pages
+1. Add the following scripts in your package.json and also add the "homepage":<your to be created github page>
+
+  "homepage": "https://<github-username>.github.io/<gitHubRepo>",
+
+  "scripts": {
+  +  "predeploy": "npm run build",
+  +  "deploy": "gh-pages -d build",
+  }
+
+2. Install the gh-pages module to create gh-pages branch on github during deployment.
+```
+>>>npm install --save gh-pages
+```
+
+3. Deploy the app - Below command is used to deploy the React app to the gh-pages but before that we need few pre-requisite.
+```
+>>>npm run deploy
+```
+![image](https://user-images.githubusercontent.com/15084301/44168243-3b28f280-a0ee-11e8-9c88-5cd1d29786b5.png)
+
+4. Now there will be a new branch in your GitHub repo "gh-pages" where the build files will be present and
+do check the gh-pages section in GitHub repo setting to see the hosted URL.
+
+![image](https://user-images.githubusercontent.com/15084301/44169010-bd1a1b00-a0f0-11e8-9486-2a6fc699ef4a.png)
+
+* You can get all the info about [deployment here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment). Also don't forget to check the [Resources](#resources) below.
 
 ## Offline Use and Service Worker
 By default, the create-react-app includes a service worker in the production build.
@@ -78,7 +113,8 @@ npm run build
 2. Now the build folder will look like below:
 ![image](https://user-images.githubusercontent.com/15084301/44098201-2949f006-9ffd-11e8-81d5-dcf581a0fc46.png)
 
-3. Launch the production version of app using build files
+3. Static Server - Set up your favorite HTTP server so that a visitor to your site is served index.html.
+   For environments using Node, the easiest way to handle this would be to install `serve` and let it handle the rest:
 ```
 >>>npm install –g serve
 >>>serve –s build
@@ -94,7 +130,7 @@ npm run build
 
 ## Thirt Party APIs
 * Foursquare API
-	We are loading the neighbouring locations for a given place (using its lattitude, longitude) 
+	We are loading the neighbouring locations for a given place (using its lattitude, longitude)
 	from this API. The places received are shown in the place listing and hence on the Map.
 ```
 Foursquare fetch API url
@@ -104,7 +140,7 @@ Here I am using Kolkata Coordinate 22.5726° N, 88.3639° E to get the neighbori
 ```
 
 * Wiki API
-	We are fetching the wiki data from this API about each place and hence showing in the infowindow 
+	We are fetching the wiki data from this API about each place and hence showing in the infowindow
 	when marker is clicked on the map.
 ```
 Wiki fetch API url
@@ -122,7 +158,9 @@ Wiki fetch API url
 - [Foursquare API endpoints](https://developer.foursquare.com/docs/api/endpoints)
 - [Google Map and React](https://stackoverflow.com/questions/34779489/rendering-a-google-map-without-react-google-map)
 - [React componentDidUpdate lifecycle event](https://reactjs.org/docs/react-component.html#unsafe_componentwillreceiveprops)
-
+- [Writing Scalable React Apps with the Component Folder Pattern](https://medium.com/styled-components/component-folder-pattern-ee42df37ec68)
+- [Throttle and Debounce used for input field](https://lodash.com/docs/4.17.10#debounce)
+- [react-throttle](https://github.com/gmcquistin/react-throttle)
 ## Authors
 * **Gaurav Singh**
 
