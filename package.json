@@ -2,8 +2,10 @@
   "name": "fend-neighborhood-map-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://gauravsinghaec.github.io/FEND-Neighborhood-Map-React",
   "dependencies": {
     "escape-string-regexp": "^1.0.5",
+    "gh-pages": "^1.2.0",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
@@ -19,6 +21,8 @@
     "react-scripts": "1.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
