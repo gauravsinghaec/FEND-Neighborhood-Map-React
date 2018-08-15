@@ -123,7 +123,7 @@ class NeighborhoodApp extends Component {
     return (
       <div className="App">
         <header>
-          <h1>
+          <h1 id="page-header">
             Places in Kolkata
           </h1>
           {/* Toggle Component - Hamburger menu icon */}

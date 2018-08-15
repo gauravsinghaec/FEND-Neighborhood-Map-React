@@ -4,7 +4,7 @@ header {
   background-color: #484848;
   height: 80px; }
 
-header h1 {
+#page-header {
   margin: auto;
   letter-spacing: 2pt;
   text-transform: uppercase;
@@ -113,9 +113,6 @@ header h1 {
   color: #0045bb; }
 
 @media screen and (max-width: 550px) {
-  header{
-    height: 110px; }
-
   .listview {
     z-index: 10;
     width: 242px;
@@ -157,5 +154,6 @@ header h1 {
     color: white;
     background-color: #454545;
     box-shadow: 0 0 8px 3px; }
-
+  #page-header {
+    font-size: 16pt; }
 }
