@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
 import escapeRegExp from 'escape-string-regexp';
 import PropTypes from 'prop-types';
+import { debounce } from 'lodash';
 import Filter from './Filter';
 import PlacesList from './PlacesList';
 import GoogleMap from './GoogleMap';
 
 class Search extends Component {
+  /**
+   * When user type in to filter place, the typed input will only be
+   * processed 300ms after the user's last keystroke. This will reduce the number
+   * of call to updateQueryState() to update the component state hence the rendering.
+   * @param:
+   *      query (data type: string): user input text
+   * @returns:
+   *      None
+   */
+  updateQuery = debounce((query) => { this.updateQueryState(query); }, 300);
+
   // Add PropTypes validation
   static propTypes = {
     isListOpen: PropTypes.bool.isRequired,
@@ -73,9 +85,10 @@ class Search extends Component {
    * @returns:
    *      None
    */
-  updateQuery = (filterQuery) => {
+  updateQueryState = (filterQuery) => {
     this.setState({ filterQuery });
   }
+
 
   /**
    * This handler function sets the state property selectedPlaceTitle if a user clicks or select
@@ -114,7 +127,8 @@ class Search extends Component {
     return (
       <div>
         <section id="placelistview" className={isListOpen ? 'listview open' : 'listview'}>
-          <Filter updateQuery={this.updateQuery} filterQuery={filterQuery} />
+          {/* Search Input component */}
+          <Filter updateQuery={this.updateQuery} />
           {/* PlaceList component - By default adds all the places as list items on UI */}
           <PlacesList
             locations={filteredLocations}
