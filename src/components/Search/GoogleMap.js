@@ -164,7 +164,7 @@ class GoogleMap extends Component {
     // destructure the props object into individual variables
     const { filterText, selectedPlaceTitle, locations } = this.props;
     // destructure the app's state object into individual variables
-    const { map, markers } = this.state;
+    const { map } = this.state;
     // Invoke the filterMarkerOnMap() if the props is changed
     if (filterText !== prevProps.filterText) {
       this.setState({ markers: this.filterMarkerOnMap(filterText) });
