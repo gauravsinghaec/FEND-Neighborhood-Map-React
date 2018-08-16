@@ -22,7 +22,6 @@ class PlacesList extends Component {
   constructor(props) {
     super(props);
     this.refList = React.createRef();
-    this.refListItem = React.createRef();
   }
 
   state = {
@@ -45,9 +44,6 @@ class PlacesList extends Component {
     const focusedIdx = 0;
     const focusedButton = buttons[focusedIdx];
 
-    // Any more initialization to do here?
-    el.setAttribute('role', 'listbox');
-
     let firstButton = true;
     for (const button of buttons) {
       if (firstButton) {
@@ -56,9 +52,6 @@ class PlacesList extends Component {
       } else {
         button.tabIndex = '-1';
       }
-
-      // What about here?
-      button.setAttribute('role', 'option');
     }
     this.setState({ buttons, focusedIdx, focusedButton });
   }
@@ -87,6 +80,7 @@ class PlacesList extends Component {
       case VK_SPACE: {
         e.preventDefault();
         const focusedButton = e.target;
+        focusedButton.style.background = '#454545';
         const idx = buttons.indexOf(focusedButton);
         if (idx < 0) {
           return;
@@ -105,11 +99,13 @@ class PlacesList extends Component {
     const { buttons } = this.state;
     let { focusedIdx } = this.state;
     const button = e.target;
+    button.style.background = '#454545';
     const idx = buttons.indexOf(button);
     if (idx < 0) {
       return;
     }
     focusedIdx = idx;
+
     this.changeFocus(buttons, focusedIdx);
   }
 
@@ -117,27 +113,25 @@ class PlacesList extends Component {
     const { focusedButton } = this.state;
     // Set the old button to tabindex -1
     focusedButton.tabIndex = -1;
-    focusedButton.removeAttribute('checked');
     focusedButton.setAttribute('aria-selected', false);
+    focusedButton.style.background = 'black';
 
     // Set the new button to tabindex 0 and focus it
     const newFocusedButton = buttons[focusedIdx];
     newFocusedButton.tabIndex = 0;
     newFocusedButton.focus();
-    newFocusedButton.setAttribute('checked', '');
-
-    // ... we probably want to do some stuff here, too ...
     newFocusedButton.setAttribute('aria-selected', true);
+    newFocusedButton.style.background = '#454545';
+
     this.setState({ focusedButton: newFocusedButton, focusedIdx });
   }
 
   render() {
     const { locations, selectPlace } = this.props;
     return (
-      <ul ref={this.refList} id="places-list" role="listbox">
+      <ul ref={this.refList} id="places-list" role="listbox" className="listbox">
         {locations.map((location, index) => (
           <li
-            ref={this.refListItem}
             key={location.id}
             id={`mi-${index}`}
             className="places-list-item"
