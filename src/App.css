@@ -42,26 +42,23 @@ header {
   width: 242px;
   background-color: black; }
 
-#places-list {
+ul#places-list {
   overflow: scroll;
   margin: 0px;
   height: 100vh;
   padding-left: 0px; }
 
-#places-list li {
+ul#places-list li {
   list-style: none;
-  padding: 0.1em; }
-
-#places-list button {
-  width: 220px;
-  line-height: 3;
+  padding: 0.5em;
+  margin: 0.2em;
+  font-size: 10pt;
+  line-height: 2;
   text-align: left;
   color: #cccccc;
-  background-color: black;
-  outline: none;
-  border: none; }
+  background-color: black; }
 
-#places-list button:focus,#places-list button:hover {
+ul#places-list li:focus,#places-list li:hover {
   outline: 0;
   color: white;
   background-color: #454545;
@@ -111,7 +108,21 @@ header {
   font-size: 10pt;
   text-decoration: underline;
   color: #0045bb; }
+/* The Close Button */
 
+.close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  outline: 0;
+  color: black;
+  cursor: pointer;
+  box-shadow: 0 0 8px 3px;
+}
 @media screen and (max-width: 550px) {
   .listview {
     z-index: 10;

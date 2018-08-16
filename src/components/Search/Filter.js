@@ -20,24 +20,22 @@ class Filter extends Component {
     const { inputValue } = this.state;
     const { updateQuery } = this.props;
     return (
-      <div id="filter">
-        {/* Input element to serch or filter places from the listing  */}
-        <label htmlFor="filter-text">
-          <input
-            id="filter-text"
-            type="text"
-            placeholder="Search places by name"
-            value={inputValue}
-            onChange={(event) => {
-              this.updateInput(event.target.value);
-              updateQuery(event.target.value);
-            }}
-          />
-          <span id="filter-help">
-            Filter
-          </span>
-        </label>
-      </div>
+      <label htmlFor="filter-text">
+        <input
+          id="filter-text"
+          type="text"
+          role="search"
+          placeholder="Search places by name"
+          value={inputValue}
+          onChange={(event) => {
+            this.updateInput(event.target.value);
+            updateQuery(event.target.value);
+          }}
+        />
+        <span id="filter-help">
+          Filter
+        </span>
+      </label>
     );
   }
 }

@@ -79,8 +79,9 @@ class GoogleMap extends Component {
     // Wiki fetch API url
     const wikiurl = `https://en.wikipedia.org/w/api.php?&origin=*&action=opensearch&format=json&search=${address}`;
     // HTML block for the content to be shown inside infowindow
-    let wikiElemItem = `<div class="infowindow"><h2>${address}</h2>
-      <p>Relevant Wikipedia Links</p>
+    let wikiElemItem = `<div role="dialog" class="infowindow" tabindex="0" aria-labelledby="infowindow-help">
+      <h2>${address}</h2>
+      <p id="infowindow-help">Relevant Wikipedia Links</p>
     <ul>`;
 
     // fetch API call to retrieve data from Wikipedia
@@ -107,11 +108,9 @@ class GoogleMap extends Component {
       })
       // Catch any error in the Fetch API or javascript error
       .catch((error) => {
+        wikiElemItem += `<p class='error' style='color:red'>${error}</p></ul></div>`;
         // Set the error content for infowindow if anything fails
-        infowindow.setContent(`<div>${marker.title}</div>
-          <div>
-            <p class='error' style='color:red'>${error}</p>
-          </div>`);
+        infowindow.setContent(wikiElemItem);
       });
   };
 
