@@ -125,7 +125,7 @@ class Search extends Component {
     }
 
     return (
-      <div aria-label="Neighborhood Map">
+      <main aria-label="Neighborhood Map" role="main">
         <section id="placelistview" className={isListOpen ? 'listview open' : 'listview'}>
           {/* Search Input component */}
           <Filter updateQuery={this.updateQuery} />
@@ -141,7 +141,7 @@ class Search extends Component {
           filterText={filterQuery}
           selectedPlaceTitle={selectedPlaceTitle}
         />
-      </div>
+      </main>
     );
   }
 }
