@@ -161,6 +161,8 @@ Wiki fetch API url
 - [Writing Scalable React Apps with the Component Folder Pattern](https://medium.com/styled-components/component-folder-pattern-ee42df37ec68)
 - [Throttle and Debounce used for input field](https://lodash.com/docs/4.17.10#debounce)
 - [react-throttle](https://github.com/gmcquistin/react-throttle)
+- [Refs in React](https://reactjs.org/docs/refs-and-the-dom.html)
+
 ## Authors
 * **Gaurav Singh**
 
